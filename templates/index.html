@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <script src="/static/js/babel.min.js"></script>
+    <script src="/static/js/react.development.js"></script>
+    <script src="/static/js/react-dom.development.js"> </script>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" >
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <style>
+      .clickable-row {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="errors" class="alert alert-danger" role="alert" style="display: none;"></div>
+    <div id="infos" class="alert alert-info" role="alert" style="display:none;"></div>
+    <div id="root" class="container">
+      <div class="page-header">
+          <h2>Bloop. It's a dashboard.</h2>
+      </div>
+      <div id="speed"></div>
+      <div id="check"></div>
+      <div id="connect"></div>
+      <div id="dev"></div>
+    </div>
+
+    <script>
+      // Override console definitions so we get nice log messages.
+      window.onerror = function(message, source, line, col, error) {
+        var text = error ? error.stack || error : message + ' (at ' + source + ':' + line + ':' + col + ')';
+        errors.textContent += text + '\n';
+        errors.style.display = '';
+      };
+      console.error = (function(old) {
+        return function error() {
+          errors.textContent += Array.prototype.slice.call(arguments).join(' ') + '\n';
+          errors.style.display = '';
+          old.apply(this, arguments);
+        }
+      })(console.error);
+      console.info= (function(old) {
+        return function info() {
+          infos.textContent += Array.prototype.slice.call(arguments).join(' ') + '\n';
+          infos.style.display = '';
+          old.apply(this, arguments);
+        }
+      })(console.info);
+    </script>
+
+    <!-- notice how this is text/babel and not js -->
+    <script type="text/babel" src="/static/the.js"></script>
+  </body>
+</html>
